@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricBike.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricBike.Test", "ElectricBike.Test\ElectricBike.Test.csproj", "{A779D4AA-7314-4ECE-96F2-C89BB8CF6879}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Documentation", "7. Documentation", "{3A826946-D135-48DC-ADB6-1A2E4106DB61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
