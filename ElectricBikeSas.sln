@@ -12,11 +12,55 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Infrastructure", "5. Inf
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Test", "6. Test", "{6198833C-9988-4F83-96D2-0340A75B62D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricBike.Web", "ElectricBike.Web\ElectricBike.Web.csproj", "{B4D99A34-F925-4712-A29E-87009143739D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricBike.Api", "ElectricBike.Api\ElectricBike.Api.csproj", "{84CC97DE-9E02-406E-88E0-0A654D033B16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricBike.Application.Core", "ElectricBike.Application.Core\ElectricBike.Application.Core.csproj", "{E494985C-9390-43D7-9F11-5ADB346EBCA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricBike.Domain.Core", "ElectricBike.Domain.Core\ElectricBike.Domain.Core.csproj", "{600F0EF7-6DE3-42CE-A90F-1ED821E879CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricBike.Infrastructure.Data", "ElectricBike.Infrastructure.Data\ElectricBike.Infrastructure.Data.csproj", "{E7A82F9E-48FD-476C-A239-3E8155345736}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricBike.Test", "ElectricBike.Test\ElectricBike.Test.csproj", "{A779D4AA-7314-4ECE-96F2-C89BB8CF6879}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4D99A34-F925-4712-A29E-87009143739D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4D99A34-F925-4712-A29E-87009143739D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4D99A34-F925-4712-A29E-87009143739D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4D99A34-F925-4712-A29E-87009143739D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84CC97DE-9E02-406E-88E0-0A654D033B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84CC97DE-9E02-406E-88E0-0A654D033B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84CC97DE-9E02-406E-88E0-0A654D033B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84CC97DE-9E02-406E-88E0-0A654D033B16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E494985C-9390-43D7-9F11-5ADB346EBCA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E494985C-9390-43D7-9F11-5ADB346EBCA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E494985C-9390-43D7-9F11-5ADB346EBCA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E494985C-9390-43D7-9F11-5ADB346EBCA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{600F0EF7-6DE3-42CE-A90F-1ED821E879CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{600F0EF7-6DE3-42CE-A90F-1ED821E879CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{600F0EF7-6DE3-42CE-A90F-1ED821E879CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{600F0EF7-6DE3-42CE-A90F-1ED821E879CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7A82F9E-48FD-476C-A239-3E8155345736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A82F9E-48FD-476C-A239-3E8155345736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7A82F9E-48FD-476C-A239-3E8155345736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A82F9E-48FD-476C-A239-3E8155345736}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A779D4AA-7314-4ECE-96F2-C89BB8CF6879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A779D4AA-7314-4ECE-96F2-C89BB8CF6879}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A779D4AA-7314-4ECE-96F2-C89BB8CF6879}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A779D4AA-7314-4ECE-96F2-C89BB8CF6879}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B4D99A34-F925-4712-A29E-87009143739D} = {41F53090-D498-4ACF-A853-B6142C9B17A5}
+		{84CC97DE-9E02-406E-88E0-0A654D033B16} = {0A742D3E-DE65-45B1-874A-E4173EE80770}
+		{E494985C-9390-43D7-9F11-5ADB346EBCA1} = {A8619AD4-09A1-478C-A612-FD90CA52EF64}
+		{600F0EF7-6DE3-42CE-A90F-1ED821E879CA} = {5CC7464C-917B-4D49-BAE6-5E21ABFB7089}
+		{E7A82F9E-48FD-476C-A239-3E8155345736} = {F4BD9178-DA7A-4604-9B6D-A51FA73487E6}
+		{A779D4AA-7314-4ECE-96F2-C89BB8CF6879} = {6198833C-9988-4F83-96D2-0340A75B62D1}
 	EndGlobalSection
 EndGlobal
