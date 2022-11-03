@@ -1,4 +1,10 @@
-﻿using ElectricBike.Domain.Core.Entities;
+﻿using ElectricBike.Domain.Core.Bicycles;
+using ElectricBike.Domain.Core.EngineSuppliers;
+using ElectricBike.Domain.Core.Manufacturers;
+using ElectricBike.Domain.Core.Motorcycles;
+using ElectricBike.Domain.Core.Persons;
+using ElectricBike.Domain.Core.PurchaseIntentions;
+using ElectricBike.Domain.Core.Users;
 using ElectricBike.Infrastructure.Data.Context.Base;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using ElectricBike.Domain.Core.Base;
 
-namespace ElectricBike.Domain.Core.Entities;
+namespace ElectricBike.Domain.Core.PurchaseIntentions;
 
 public class ProductOfInterest : EntityBase
 {

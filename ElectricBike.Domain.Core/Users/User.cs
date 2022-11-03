@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using ElectricBike.Domain.Core.Base;
+using ElectricBike.Domain.Core.Persons;
 
-namespace ElectricBike.Domain.Core.Entities;
+namespace ElectricBike.Domain.Core.Users;
 
 public class User : EntityBase
 {
