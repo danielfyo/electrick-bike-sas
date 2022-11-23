@@ -1,4 +1,4 @@
-using ElectricBike.Application.Core.Dtos;
+using ElectricBike.Application.Core.Services.Manufacturers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectricBike.Api.Controllers;

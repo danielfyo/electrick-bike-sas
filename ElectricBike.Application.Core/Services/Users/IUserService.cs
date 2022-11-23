@@ -1,8 +1,6 @@
-using ElectricBike.Application.Core.Dtos;
-
 namespace ElectricBike.Application.Core.Services.Users;
 
-public interface IUsersService
+public interface IUserService
 {
     Task<UserDto> Create(UserDto dto);
     Task<UserDto> GetById(int id);

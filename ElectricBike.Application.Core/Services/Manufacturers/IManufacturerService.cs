@@ -1,5 +1,3 @@
-using ElectricBike.Application.Core.Dtos;
-
 namespace ElectricBike.Application.Core.Services.Manufacturers;
 
 public interface IManufacturerService

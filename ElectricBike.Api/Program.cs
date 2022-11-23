@@ -1,3 +1,4 @@
+using ElectricBike.Application.Core;
 using ElectricBike.Infrastructure.Data.Context.Base;
 
 const string ConnectionStringName = "DefaultConnection";
@@ -14,7 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString(ConnectionStringName);
-builder.Services.ConfigureDataBase(connectionString);
+builder.Services.ConfigureApplication(connectionString);
 
 var app = builder.Build();
 

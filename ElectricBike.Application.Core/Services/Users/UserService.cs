@@ -1,10 +1,9 @@
 using AutoMapper;
-using ElectricBike.Application.Core.Dtos;
 using ElectricBike.Domain.Core.Users;
 
 namespace ElectricBike.Application.Core.Services.Users;
 
-public class UserService : IUsersService
+public class UserService : IUserService
 {
     private readonly IUserRepository _repo;
     private readonly IMapper _mapper;

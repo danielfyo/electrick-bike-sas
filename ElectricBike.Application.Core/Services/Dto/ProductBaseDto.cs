@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using ElectricBike.Application.Core.Services.Manufacturers;
 
-namespace ElectricBike.Application.Core.Dtos;
+namespace ElectricBike.Application.Core.Services.Dto;
 
 public abstract class ProductBaseDto : DtoBase
 {

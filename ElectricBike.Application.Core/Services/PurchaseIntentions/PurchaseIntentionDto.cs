@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using ElectricBike.Application.Core.Services.Dto;
+using ElectricBike.Application.Core.Services.Users;
 
-namespace ElectricBike.Application.Core.Dtos;
+namespace ElectricBike.Application.Core.Services.PurchaseIntentions;
 
 public class PurchaseIntentionDto : DtoBase
 {

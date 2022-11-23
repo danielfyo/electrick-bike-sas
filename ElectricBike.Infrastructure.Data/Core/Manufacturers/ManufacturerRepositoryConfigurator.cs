@@ -5,6 +5,6 @@ namespace ElectricBike.Infrastructure.Data.Core.Manufacturers;
 
 public static class ManufacturersRepositoryConfigurator
 {
-    public static void ConfigureManufacturersRepository(this IServiceCollection services) =>
+    public static void ConfigureManufacturerRepository(this IServiceCollection services) =>
         services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
 }

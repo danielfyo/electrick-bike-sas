@@ -1,5 +1,4 @@
 using AutoMapper;
-using ElectricBike.Application.Core.Dtos;
 using ElectricBike.Domain.Core.PurchaseIntentions;
 
 namespace ElectricBike.Application.Core.Services.PurchaseIntentions;

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ElectricBike.Application.Core.Dtos;
+namespace ElectricBike.Application.Core.Services.Dto;
 
 public class ProductOfInterestDto : DtoBase
 {

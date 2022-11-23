@@ -1,5 +1,5 @@
 using AutoMapper;
-using ElectricBike.Application.Core.Dtos;
+using ElectricBike.Application.Core.Services.EngineSuppliers;
 
 namespace ElectricBike.Application.Core.Services.Users;
 

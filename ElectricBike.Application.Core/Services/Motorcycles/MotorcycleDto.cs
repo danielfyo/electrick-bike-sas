@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using ElectricBike.Application.Core.Services.Dto;
+using ElectricBike.Application.Core.Services.EngineSuppliers;
 
-namespace ElectricBike.Application.Core.Dtos;
+namespace ElectricBike.Application.Core.Services.Motorcycles;
 
 public class MotorcycleDto : ProductBaseDto
 {

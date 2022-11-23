@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ElectricBike.Domain.Core\ElectricBike.Domain.Core.csproj" />
+      <ProjectReference Include="..\ElectricBike.Infrastructure.Data\ElectricBike.Infrastructure.Data.csproj" />
     </ItemGroup>
 
 </Project>
