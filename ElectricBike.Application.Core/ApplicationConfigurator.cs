@@ -5,7 +5,7 @@ using ElectricBike.Application.Core.Services.Motorcycles;
 using ElectricBike.Application.Core.Services.Persons;
 using ElectricBike.Application.Core.Services.PurchaseIntentions;
 using ElectricBike.Application.Core.Services.Users;
-using ElectricBike.Infrastructure.Data.Context.Base;
+using ElectricBike.Infrastructure.Data.Context.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ElectricBike.Application.Core;
@@ -14,7 +14,7 @@ public static class ApplicationConfigurator
 {
     public static void ConfigureApplication(this IServiceCollection services, string dbConnectionString)
     {
-        services.ConfigureDataBase(dbConnectionString);
+        services.ConfigureCoreDbContext(dbConnectionString);
         
         services.ConfigureMapper();
 
