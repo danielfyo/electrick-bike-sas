@@ -1,5 +1,6 @@
 using ElectricBike.Application.Core.Services.Dto;
 using ElectricBike.Application.Core.Services.EngineSuppliers;
+using System.ComponentModel.DataAnnotations;
 
 namespace ElectricBike.Application.Core.Services.Motorcycles
 {
