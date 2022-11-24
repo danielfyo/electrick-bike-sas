@@ -4,16 +4,18 @@ using ElectricBike.Infrastructure.Data.Context.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ElectricBike.Infrastructure.Data.Migrations
+namespace ElectricBike.Infrastructure.Data.Migrations.CoreDb
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221124165626_add reference to bicycle entity and line to motorcycle")]
+    partial class addreferencetobicycleentityandlinetomotorcycle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
