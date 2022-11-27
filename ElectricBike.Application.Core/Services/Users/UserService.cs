@@ -17,7 +17,7 @@ public class UserService : IUserService
     public async Task<UserDto> Create(UserDto dto) => 
         _mapper.Map<UserDto>(await _repo.Add(_mapper.Map<User>(dto)).ConfigureAwait(false));
 
-    public async Task<UserDto> GetById(int id) => 
+    public async Task<UserDto> GetById(Guid id) => 
         _mapper.Map<UserDto>(await _repo.GetAll().ConfigureAwait(false));
 
     public async Task<IEnumerable<UserDto>> GetAll() =>
@@ -26,5 +26,5 @@ public class UserService : IUserService
     public async Task<bool> Update(UserDto dto) => 
         await _repo.Update(_mapper.Map<User>(dto)).ConfigureAwait(false);
 
-    public async Task<bool> Delete(int id) => await _repo.Delete(id).ConfigureAwait(false);
+    public async Task<bool> Delete(Guid id) => await _repo.Delete(id).ConfigureAwait(false);
 }

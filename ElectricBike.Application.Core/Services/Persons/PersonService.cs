@@ -17,7 +17,7 @@ public class PersonService : IPersonService
     public async Task<PersonDto> Create(PersonDto dto) => 
         _mapper.Map<PersonDto>(await _repo.Add(_mapper.Map<Person>(dto)).ConfigureAwait(false));
 
-    public async Task<PersonDto> GetById(int id) => 
+    public async Task<PersonDto> GetById(Guid id) => 
         _mapper.Map<PersonDto>(await _repo.GetAll().ConfigureAwait(false));
 
     public async Task<IEnumerable<PersonDto>> GetAll() =>
@@ -26,5 +26,5 @@ public class PersonService : IPersonService
     public async Task<bool> Update(PersonDto dto) => 
         await _repo.Update(_mapper.Map<Person>(dto)).ConfigureAwait(false);
 
-    public async Task<bool> Delete(int id) => await _repo.Delete(id).ConfigureAwait(false);
+    public async Task<bool> Delete(Guid id) => await _repo.Delete(id).ConfigureAwait(false);
 }

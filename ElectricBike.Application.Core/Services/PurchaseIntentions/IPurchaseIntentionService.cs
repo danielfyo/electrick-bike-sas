@@ -3,8 +3,8 @@ namespace ElectricBike.Application.Core.Services.PurchaseIntentions;
 public interface IPurchaseIntentionService
 {
     Task<PurchaseIntentionDto> Create(PurchaseIntentionDto dto);
-    Task<PurchaseIntentionDto> GetById(int id);
+    Task<PurchaseIntentionDto> GetById(Guid id);
     Task<IEnumerable<PurchaseIntentionDto>> GetAll();
     Task<bool> Update(PurchaseIntentionDto dto);
-    Task<bool> Delete(int id);
+    Task<bool> Delete(Guid id);
 }

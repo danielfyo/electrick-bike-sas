@@ -1,4 +1,6 @@
 using ElectricBike.Application.Core.Services.Bicycles;
+using ElectricBike.Application.Core.Services.Manufacturers;
+using ElectricBike.Domain.Core.Manufacturers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectricBike.Api.Controllers;
@@ -9,11 +11,13 @@ public class BicycleController : ControllerBase
 {
     private readonly ILogger<BicycleController> _logger;
     private readonly IBicycleService _service;
+    private readonly IManufacturerService _manufacturerService;
 
-    public BicycleController(ILogger<BicycleController> logger, IBicycleService service)
+    public BicycleController(ILogger<BicycleController> logger, IBicycleService service, IManufacturerService manufacturerService)
     {
         _logger = logger;
         _service = service;
+        _manufacturerService = manufacturerService;
     }
 
     [HttpPost(nameof(Create))]
@@ -27,11 +31,17 @@ public class BicycleController : ControllerBase
     public async Task<IEnumerable<BicycleDto>> GetAll()
     {
         _logger.Log(LogLevel.Information, $"{nameof(BicycleController)} => {nameof(GetAll)}");
-        return await _service.GetAll().ConfigureAwait(false);
+        var allBicycles = (await _service.GetAll().ConfigureAwait(false)).ToArray();
+
+        foreach (var bicycle in allBicycles)
+        {
+            bicycle.Manufacturer = await _manufacturerService.GetById(bicycle.ManufacturerId);
+        }
+        return allBicycles;
     }
 
-    [HttpGet("{nameof(GetById)}/{id}")]
-    public async Task<BicycleDto> GetById(int id)
+    [HttpGet($"{nameof(GetById)}/"+"{id}")]
+    public async Task<BicycleDto> GetById(Guid id)
     {
         _logger.Log(LogLevel.Information, $"{nameof(BicycleController)} => {nameof(GetById)} => {id}");
         return await _service.GetById(id).ConfigureAwait(false);
@@ -45,7 +55,7 @@ public class BicycleController : ControllerBase
     }
     
     [HttpDelete("Delete/{id}")]
-    public async Task<bool> Delete(int id)
+    public async Task<bool> Delete(Guid id)
     {
         _logger.Log(LogLevel.Information, $"{nameof(BicycleController)} => {nameof(Delete)} => {id}");
         return await _service.Delete(id).ConfigureAwait(false);

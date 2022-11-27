@@ -3,8 +3,8 @@ namespace ElectricBike.Application.Core.Services.Persons;
 public interface IPersonService
 {
     Task<PersonDto> Create(PersonDto dto);
-    Task<PersonDto> GetById(int id);
+    Task<PersonDto> GetById(Guid id);
     Task<IEnumerable<PersonDto>> GetAll();
     Task<bool> Update(PersonDto dto);
-    Task<bool> Delete(int id);
+    Task<bool> Delete(Guid id);
 }

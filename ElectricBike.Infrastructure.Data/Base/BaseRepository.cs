@@ -30,9 +30,9 @@ namespace ElectricBike.Infrastructure.Data.Base
 
         public async Task<List<T>> GetAll() => await _dbContext.Set<T>().ToListAsync();
 
-        public async Task<T> GetById(int id) => await _dbContext.Set<T>().FindAsync(id);
+        public async Task<T> GetById(Guid id) => await _dbContext.Set<T>().FindAsync(id);
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(Guid id)
         {
             var entity = await _dbContext.Set<T>().FindAsync(id);
             _dbContext.Set<T>().Remove(entity);

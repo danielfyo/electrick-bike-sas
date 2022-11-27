@@ -1,4 +1,5 @@
 using ElectricBike.Application.Core.Automapper;
+using ElectricBike.Application.Core.Services.Bicycles;
 using ElectricBike.Application.Core.Services.EngineSuppliers;
 using ElectricBike.Application.Core.Services.Manufacturers;
 using ElectricBike.Application.Core.Services.Motorcycles;
@@ -18,6 +19,7 @@ public static class ApplicationConfigurator
         
         services.ConfigureMapper();
 
+        services.ConfigureBicycleService();
         services.ConfigureUserService();
         services.ConfigurePurchaseIntentionService();
         services.ConfigurePersonService();

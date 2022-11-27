@@ -17,7 +17,7 @@ public class PurchaseIntentionService : IPurchaseIntentionService
     public async Task<PurchaseIntentionDto> Create(PurchaseIntentionDto dto) => 
         _mapper.Map<PurchaseIntentionDto>(await _repo.Add(_mapper.Map<PurchaseIntention>(dto)).ConfigureAwait(false));
 
-    public async Task<PurchaseIntentionDto> GetById(int id) => 
+    public async Task<PurchaseIntentionDto> GetById(Guid id) => 
         _mapper.Map<PurchaseIntentionDto>(await _repo.GetAll().ConfigureAwait(false));
 
     public async Task<IEnumerable<PurchaseIntentionDto>> GetAll() =>
@@ -26,5 +26,5 @@ public class PurchaseIntentionService : IPurchaseIntentionService
     public async Task<bool> Update(PurchaseIntentionDto dto) => 
         await _repo.Update(_mapper.Map<PurchaseIntention>(dto)).ConfigureAwait(false);
 
-    public async Task<bool> Delete(int id) => await _repo.Delete(id).ConfigureAwait(false);
+    public async Task<bool> Delete(Guid id) => await _repo.Delete(id).ConfigureAwait(false);
 }

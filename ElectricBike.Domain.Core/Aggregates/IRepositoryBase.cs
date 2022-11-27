@@ -8,11 +8,11 @@ namespace ElectricBike.Domain.Core.Aggregates
 
         Task<TGenericEntity> Add(TGenericEntity entity);
 
-        Task<bool> Delete(int id);
+        Task<bool> Delete(Guid id);
 
         Task<bool> Update(TGenericEntity entity);
 
-        Task<TGenericEntity> GetById(int id);
+        Task<TGenericEntity> GetById(Guid id);
 
         Task<List<TGenericEntity>> GetAll();
 
@@ -22,9 +22,5 @@ namespace ElectricBike.Domain.Core.Aggregates
             Expression<Func<TGenericEntity, bool>> predicate, int? skipRecords = 0, int? takeRecords = 0, string? orderByType = "asc");
 
         Task<TGenericEntity> FirstBySearchMatching(Expression<Func<TGenericEntity, bool>> predicate);
-
-        Task<bool> Delete(decimal id);
-
-        Task<TGenericEntity> GetById(decimal id);
     }
 }

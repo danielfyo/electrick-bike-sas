@@ -1,5 +1,5 @@
 using AutoMapper;
-using ElectricBike.Application.Core.Services.EngineSuppliers;
+using ElectricBike.Domain.Core.Manufacturers;
 
 namespace ElectricBike.Application.Core.Services.Manufacturers;
 
@@ -7,6 +7,6 @@ public class ManufacturerMapperProfile  : Profile
 {
     public ManufacturerMapperProfile()
     {
-        CreateMap<Domain.Core.EngineSuppliers.EngineSupplier, EngineSupplierDto>().ReverseMap();
+        CreateMap<Manufacturer, ManufacturerDto>().ReverseMap();
     }
 }

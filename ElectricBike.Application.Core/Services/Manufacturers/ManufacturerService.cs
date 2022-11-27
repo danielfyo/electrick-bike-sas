@@ -17,8 +17,8 @@ public class ManufacturerService : IManufacturerService
     public async Task<ManufacturerDto> Create(ManufacturerDto dto) => 
         _mapper.Map<ManufacturerDto>(await _repo.Add(_mapper.Map<Manufacturer>(dto)).ConfigureAwait(false));
 
-    public async Task<ManufacturerDto> GetById(int id) => 
-        _mapper.Map<ManufacturerDto>(await _repo.GetAll().ConfigureAwait(false));
+    public async Task<ManufacturerDto> GetById(Guid id) => 
+        _mapper.Map<ManufacturerDto>(await _repo.GetById(id).ConfigureAwait(false));
 
     public async Task<IEnumerable<ManufacturerDto>> GetAll() =>
         _mapper.Map<IEnumerable<ManufacturerDto>>((await _repo.GetAll().ConfigureAwait(false)));
@@ -26,5 +26,5 @@ public class ManufacturerService : IManufacturerService
     public async Task<bool> Update(ManufacturerDto dto) => 
         await _repo.Update(_mapper.Map<Manufacturer>(dto)).ConfigureAwait(false);
 
-    public async Task<bool> Delete(int id) => await _repo.Delete(id).ConfigureAwait(false);
+    public async Task<bool> Delete(Guid id) => await _repo.Delete(id).ConfigureAwait(false);
 }
