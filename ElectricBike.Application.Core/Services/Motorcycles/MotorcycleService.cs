@@ -18,7 +18,7 @@ public class MotorcycleService : IMotorcycleService
         _mapper.Map<MotorcycleDto>(await _repo.Add(_mapper.Map<Motorcycle>(dto)).ConfigureAwait(false));
 
     public async Task<MotorcycleDto> GetById(Guid id) => 
-        _mapper.Map<MotorcycleDto>(await _repo.GetAll().ConfigureAwait(false));
+        _mapper.Map<MotorcycleDto>(await _repo.GetById(id).ConfigureAwait(false));
 
     public async Task<IEnumerable<MotorcycleDto>> GetAll() =>
         _mapper.Map<IEnumerable<MotorcycleDto>>((await _repo.GetAll().ConfigureAwait(false)));

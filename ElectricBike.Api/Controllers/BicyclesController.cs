@@ -1,6 +1,5 @@
 using ElectricBike.Application.Core.Services.Bicycles;
 using ElectricBike.Application.Core.Services.Manufacturers;
-using ElectricBike.Domain.Core.Manufacturers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectricBike.Api.Controllers;
@@ -41,10 +40,14 @@ public class BicycleController : ControllerBase
     }
 
     [HttpGet($"{nameof(GetById)}/"+"{id}")]
-    public async Task<BicycleDto> GetById(Guid id)
+    public async Task<BicycleDto?> GetById(Guid id)
     {
         _logger.Log(LogLevel.Information, $"{nameof(BicycleController)} => {nameof(GetById)} => {id}");
-        return await _service.GetById(id).ConfigureAwait(false);
+        var bicycle = await _service.GetById(id).ConfigureAwait(false);
+        if (bicycle == null)
+            return null;
+        bicycle.Manufacturer = await _manufacturerService.GetById(bicycle.ManufacturerId);
+        return bicycle;
     }
    
     [HttpPut(nameof(Update))]
@@ -54,7 +57,7 @@ public class BicycleController : ControllerBase
         return await _service.Update(dto).ConfigureAwait(false);
     }
     
-    [HttpDelete("Delete/{id}")]
+    [HttpDelete($"{nameof(Delete)}"+"/{id}")]
     public async Task<bool> Delete(Guid id)
     {
         _logger.Log(LogLevel.Information, $"{nameof(BicycleController)} => {nameof(Delete)} => {id}");

@@ -18,7 +18,7 @@ public class EngineSupplierService : IEngineSupplierService
         _mapper.Map<EngineSupplierDto>(await _repo.Add(_mapper.Map<Domain.Core.EngineSuppliers.EngineSupplier>(dto)).ConfigureAwait(false));
 
     public async Task<EngineSupplierDto> GetById(Guid id) => 
-        _mapper.Map<EngineSupplierDto>(await _repo.GetAll().ConfigureAwait(false));
+        _mapper.Map<EngineSupplierDto>(await _repo.GetById(id).ConfigureAwait(false));
 
     public async Task<IEnumerable<EngineSupplierDto>> GetAll() =>
         _mapper.Map<IEnumerable<EngineSupplierDto>>((await _repo.GetAll().ConfigureAwait(false)));

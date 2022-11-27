@@ -18,7 +18,7 @@ public class UserService : IUserService
         _mapper.Map<UserDto>(await _repo.Add(_mapper.Map<User>(dto)).ConfigureAwait(false));
 
     public async Task<UserDto> GetById(Guid id) => 
-        _mapper.Map<UserDto>(await _repo.GetAll().ConfigureAwait(false));
+        _mapper.Map<UserDto>(await _repo.GetById(id).ConfigureAwait(false));
 
     public async Task<IEnumerable<UserDto>> GetAll() =>
         _mapper.Map<IEnumerable<UserDto>>((await _repo.GetAll().ConfigureAwait(false)));

@@ -14,4 +14,6 @@ public class PurchaseIntention : EntityBase
 
     [Required] 
     public User User { get; set; } = default!;
+
+    public virtual IEnumerable<ProductOfInterest> ProductsOfInterest { get; set; } = default!;
 }

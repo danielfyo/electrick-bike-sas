@@ -14,4 +14,6 @@ public class PurchaseIntentionDto : DtoBase
 
     [Required] 
     public UserDto User { get; set; } = default!;
+    
+    public IEnumerable<ProductOfInterestDto> ProductsOfInterest { get; set; }
 }

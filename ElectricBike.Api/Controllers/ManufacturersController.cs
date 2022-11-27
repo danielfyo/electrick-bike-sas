@@ -8,31 +8,46 @@ namespace ElectricBike.Api.Controllers;
 public class ManufacturerController : ControllerBase
 {
     private readonly ILogger<ManufacturerController> _logger;
+    private readonly IManufacturerService _service;
 
-    public ManufacturerController(ILogger<ManufacturerController> logger) => _logger = logger;
-
-    [HttpGet(nameof(GetAll))]
-    public async Task<IEnumerable<ManufacturerDto>> GetAll() =>new List<ManufacturerDto>();
+    public ManufacturerController(ILogger<ManufacturerController> logger, IManufacturerService service)
+    {
+        _logger = logger;
+        _service = service;
+    }
 
     [HttpPost(nameof(Create))]
-    public async Task<ManufacturerDto> Create(ManufacturerDto dto) => new ManufacturerDto();
+    public async Task<ManufacturerDto> Create(ManufacturerDto dto)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(ManufacturerController)} => {nameof(Create)}");
+        return await _service.Create(dto).ConfigureAwait(false);
+    }
+    
+    [HttpGet(nameof(GetAll))]
+    public async Task<IEnumerable<ManufacturerDto>> GetAll()
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(ManufacturerController)} => {nameof(GetAll)}");
+        return await _service.GetAll().ConfigureAwait(false);
+    }
 
-    [HttpDelete("Delete/{id}")]
-    public async Task<bool> Delete(int id) => true;
-
+    [HttpGet($"{nameof(GetById)}/"+"{id}")]
+    public async Task<ManufacturerDto> GetById(Guid id)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(ManufacturerController)} => {nameof(GetById)} => {id}");
+        return await _service.GetById(id).ConfigureAwait(false);
+    }
+   
     [HttpPut(nameof(Update))]
-    public async Task<bool> Update(ManufacturerDto dto) => true;
-
-    [HttpGet("{nameof(GetById)}/{id}")]
-    public async Task<ManufacturerDto> GetById(int id) => new ManufacturerDto();
-
-    [HttpPost("{nameof(SearchMatching)}")]
-    public Task<ManufacturerDto> SearchMatching(ManufacturerDto dto) =>
-        throw new NotImplementedException();
-
-    [HttpGet("{nameof(Consult)}/{dto}")]
-    public async Task<ManufacturerDto> Consult(ManufacturerDto dto) => new ManufacturerDto();
-
-    [HttpGet("{nameof(GetByIdManufacturer)}/{id}")]
-    public async Task<ManufacturerDto> GetByIdManufacturer(int id) => new ManufacturerDto();
+    public async Task<bool> Update(ManufacturerDto dto)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(ManufacturerController)} => {nameof(Update)}");
+        return await _service.Update(dto).ConfigureAwait(false);
+    }
+    
+    [HttpDelete($"{nameof(Delete)}"+"/{id}")]
+    public async Task<bool> Delete(Guid id)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(ManufacturerController)} => {nameof(Delete)} => {id}");
+        return await _service.Delete(id).ConfigureAwait(false);
+    }
 }

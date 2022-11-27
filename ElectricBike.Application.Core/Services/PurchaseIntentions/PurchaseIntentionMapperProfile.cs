@@ -1,5 +1,5 @@
 using AutoMapper;
-using ElectricBike.Application.Core.Services.EngineSuppliers;
+using ElectricBike.Domain.Core.PurchaseIntentions;
 
 namespace ElectricBike.Application.Core.Services.PurchaseIntentions;
 
@@ -7,6 +7,6 @@ public class PurchaseIntentionMapperProfile  : Profile
 {
     public PurchaseIntentionMapperProfile()
     {
-        CreateMap<Domain.Core.EngineSuppliers.EngineSupplier, EngineSupplierDto>().ReverseMap();
+        CreateMap<PurchaseIntention, PurchaseIntentionDto>().ReverseMap();
     }
 }

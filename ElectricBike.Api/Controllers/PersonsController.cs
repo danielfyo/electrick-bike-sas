@@ -8,31 +8,46 @@ namespace ElectricBike.Api.Controllers;
 public class PersonsController : ControllerBase
 {
     private readonly ILogger<PersonsController> _logger;
+    private readonly IPersonService _service;
 
-    public PersonsController(ILogger<PersonsController> logger) => _logger = logger;
-
-    [HttpGet(nameof(GetAll))]
-    public async Task<IEnumerable<PersonDto>> GetAll() =>new List<PersonDto>();
+    public PersonsController(ILogger<PersonsController> logger, IPersonService service)
+    {
+        _logger = logger;
+        _service = service;
+    }
 
     [HttpPost(nameof(Create))]
-    public async Task<PersonDto> Create(PersonDto dto) => new PersonDto();
+    public async Task<PersonDto> Create(PersonDto dto)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(PersonsController)} => {nameof(Create)}");
+        return await _service.Create(dto).ConfigureAwait(false);
+    }
+    
+    [HttpGet(nameof(GetAll))]
+    public async Task<IEnumerable<PersonDto>> GetAll()
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(PersonsController)} => {nameof(GetAll)}");
+        return await _service.GetAll().ConfigureAwait(false);
+    }
 
-    [HttpDelete("Delete/{id}")]
-    public async Task<bool> Delete(int id) => true;
-
+    [HttpGet($"{nameof(GetById)}/"+"{id}")]
+    public async Task<PersonDto> GetById(Guid id)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(PersonsController)} => {nameof(GetById)} => {id}");
+        return await _service.GetById(id).ConfigureAwait(false);
+    }
+   
     [HttpPut(nameof(Update))]
-    public async Task<bool> Update(PersonDto dto) => true;
-
-    [HttpGet("{nameof(GetById)}/{id}")]
-    public async Task<PersonDto> GetById(int id) => new PersonDto();
-
-    [HttpPost("{nameof(SearchMatching)}")]
-    public Task<PersonDto> SearchMatching(PersonDto dto) =>
-        throw new NotImplementedException();
-
-    [HttpGet("{nameof(Consult)}/{dto}")]
-    public async Task<PersonDto> Consult(PersonDto dto) => new PersonDto();
-
-    [HttpGet("{nameof(GetByIdPerson)}/{id}")]
-    public async Task<PersonDto> GetByIdPerson(int id) => new PersonDto();
+    public async Task<bool> Update(PersonDto dto)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(PersonsController)} => {nameof(Update)}");
+        return await _service.Update(dto).ConfigureAwait(false);
+    }
+    
+    [HttpDelete($"{nameof(Delete)}"+"/{id}")]
+    public async Task<bool> Delete(Guid id)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(PersonsController)} => {nameof(Delete)} => {id}");
+        return await _service.Delete(id).ConfigureAwait(false);
+    }
 }

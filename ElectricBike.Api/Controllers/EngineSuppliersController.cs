@@ -8,31 +8,46 @@ namespace ElectricBike.Api.Controllers;
 public class EngineSupplierController : ControllerBase
 {
     private readonly ILogger<EngineSupplierController> _logger;
+    private readonly IEngineSupplierService _service;
 
-    public EngineSupplierController(ILogger<EngineSupplierController> logger) => _logger = logger;
-
-    [HttpGet(nameof(GetAll))]
-    public async Task<IEnumerable<EngineSupplierDto>> GetAll() =>new List<EngineSupplierDto>();
+    public EngineSupplierController(ILogger<EngineSupplierController> logger, IEngineSupplierService service)
+    {
+        _logger = logger;
+        _service = service;
+    }
 
     [HttpPost(nameof(Create))]
-    public async Task<EngineSupplierDto> Create(EngineSupplierDto dto) => new EngineSupplierDto();
+    public async Task<EngineSupplierDto> Create(EngineSupplierDto dto)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(EngineSupplierController)} => {nameof(Create)}");
+        return await _service.Create(dto).ConfigureAwait(false);
+    }
+    
+    [HttpGet(nameof(GetAll))]
+    public async Task<IEnumerable<EngineSupplierDto>> GetAll()
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(EngineSupplierController)} => {nameof(GetAll)}");
+        return await _service.GetAll().ConfigureAwait(false);
+    }
 
-    [HttpDelete("Delete/{id}")]
-    public async Task<bool> Delete(int id) => true;
-
+    [HttpGet($"{nameof(GetById)}/"+"{id}")]
+    public async Task<EngineSupplierDto> GetById(Guid id)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(EngineSupplierController)} => {nameof(GetById)} => {id}");
+        return await _service.GetById(id).ConfigureAwait(false);
+    }
+   
     [HttpPut(nameof(Update))]
-    public async Task<bool> Update(EngineSupplierDto dto) => true;
-
-    [HttpGet("{nameof(GetById)}/{id}")]
-    public async Task<EngineSupplierDto> GetById(int id) => new EngineSupplierDto();
-
-    [HttpPost("{nameof(SearchMatching)}")]
-    public Task<EngineSupplierDto> SearchMatching(EngineSupplierDto dto) =>
-        throw new NotImplementedException();
-
-    [HttpGet("{nameof(Consult)}/{dto}")]
-    public async Task<EngineSupplierDto> Consult(EngineSupplierDto dto) => new EngineSupplierDto();
-
-    [HttpGet("{nameof(GetByIdEngineSupplier)}/{id}")]
-    public async Task<EngineSupplierDto> GetByIdEngineSupplier(int id) => new EngineSupplierDto();
+    public async Task<bool> Update(EngineSupplierDto dto)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(EngineSupplierController)} => {nameof(Update)}");
+        return await _service.Update(dto).ConfigureAwait(false);
+    }
+    
+    [HttpDelete($"{nameof(Delete)}"+"/{id}")]
+    public async Task<bool> Delete(Guid id)
+    {
+        _logger.Log(LogLevel.Information, $"{nameof(EngineSupplierController)} => {nameof(Delete)} => {id}");
+        return await _service.Delete(id).ConfigureAwait(false);
+    }
 }
