@@ -10,13 +10,11 @@ public class BicycleController : ControllerBase
 {
     private readonly ILogger<BicycleController> _logger;
     private readonly IBicycleService _service;
-    private readonly IManufacturerService _manufacturerService;
 
-    public BicycleController(ILogger<BicycleController> logger, IBicycleService service, IManufacturerService manufacturerService)
+    public BicycleController(ILogger<BicycleController> logger, IBicycleService service)
     {
         _logger = logger;
         _service = service;
-        _manufacturerService = manufacturerService;
     }
 
     [HttpPost(nameof(Create))]
@@ -30,24 +28,14 @@ public class BicycleController : ControllerBase
     public async Task<IEnumerable<BicycleDto>> GetAll()
     {
         _logger.Log(LogLevel.Information, $"{nameof(BicycleController)} => {nameof(GetAll)}");
-        var allBicycles = (await _service.GetAll().ConfigureAwait(false)).ToArray();
-
-        foreach (var bicycle in allBicycles)
-        {
-            bicycle.Manufacturer = await _manufacturerService.GetById(bicycle.ManufacturerId);
-        }
-        return allBicycles;
+        return await _service.GetAll().ConfigureAwait(false);
     }
 
     [HttpGet($"{nameof(GetById)}/"+"{id}")]
     public async Task<BicycleDto?> GetById(Guid id)
     {
         _logger.Log(LogLevel.Information, $"{nameof(BicycleController)} => {nameof(GetById)} => {id}");
-        var bicycle = await _service.GetById(id).ConfigureAwait(false);
-        if (bicycle == null)
-            return null;
-        bicycle.Manufacturer = await _manufacturerService.GetById(bicycle.ManufacturerId);
-        return bicycle;
+        return await _service.GetById(id).ConfigureAwait(false);
     }
    
     [HttpPut(nameof(Update))]

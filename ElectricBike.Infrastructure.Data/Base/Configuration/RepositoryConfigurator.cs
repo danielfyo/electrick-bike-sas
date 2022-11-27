@@ -1,4 +1,4 @@
-﻿using ElectricBike.Infrastructure.Data.Context.Core;
+﻿using ElectricBike.Infrastructure.Data.Core.Context;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 

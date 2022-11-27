@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace ElectricBike.Infrastructure.Data.Context.Core
+namespace ElectricBike.Infrastructure.Data.Core.Context
 {
     public static class CoreDbContextConfiguration
     {

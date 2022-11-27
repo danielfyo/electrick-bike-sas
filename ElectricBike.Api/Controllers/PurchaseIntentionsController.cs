@@ -10,13 +10,11 @@ public class PurchaseIntentionsController : ControllerBase
 {
     private readonly ILogger<PurchaseIntentionsController> _logger;
     private readonly IPurchaseIntentionService _service;
-    private readonly IUserService _userService;
 
-    public PurchaseIntentionsController(ILogger<PurchaseIntentionsController> logger, IPurchaseIntentionService service, IUserService userService)
+    public PurchaseIntentionsController(ILogger<PurchaseIntentionsController> logger, IPurchaseIntentionService service)
     {
         _logger = logger;
         _service = service;
-        _userService = userService;
     }
 
     [HttpPost(nameof(Create))]
@@ -30,12 +28,7 @@ public class PurchaseIntentionsController : ControllerBase
     public async Task<IEnumerable<PurchaseIntentionDto>> GetAll()
     {
         _logger.Log(LogLevel.Information, $"{nameof(PurchaseIntentionsController)} => {nameof(GetAll)}");
-        var intentions = await _service.GetAll().ConfigureAwait(false);
-        foreach (var intention in intentions)
-        {
-            intention.User = await _userService.GetById(intention.UserId).ConfigureAwait(false);
-        }
-        return intentions;
+        return await _service.GetAll().ConfigureAwait(false);
     }
 
     [HttpGet($"{nameof(GetById)}/"+"{id}")]

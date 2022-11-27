@@ -12,7 +12,7 @@ namespace ElectricBike.Domain.Core.Aggregates
 
         Task<bool> Update(TGenericEntity entity);
 
-        Task<TGenericEntity> GetById(Guid id);
+        Task<TGenericEntity?> GetById(Guid id);
 
         Task<List<TGenericEntity>> GetAll();
 

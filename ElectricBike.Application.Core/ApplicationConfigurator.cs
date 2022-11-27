@@ -6,7 +6,7 @@ using ElectricBike.Application.Core.Services.Motorcycles;
 using ElectricBike.Application.Core.Services.Persons;
 using ElectricBike.Application.Core.Services.PurchaseIntentions;
 using ElectricBike.Application.Core.Services.Users;
-using ElectricBike.Infrastructure.Data.Context.Core;
+using ElectricBike.Infrastructure.Data.Core.Context;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ElectricBike.Application.Core;

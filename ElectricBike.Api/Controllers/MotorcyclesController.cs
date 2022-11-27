@@ -10,13 +10,11 @@ public class MotorcycleController : ControllerBase
 {
     private readonly ILogger<MotorcycleController> _logger;
     private readonly IMotorcycleService _service;
-    private readonly IManufacturerService _manufacturerService;
 
-    public MotorcycleController(ILogger<MotorcycleController> logger, IMotorcycleService service, IManufacturerService manufacturerService)
+    public MotorcycleController(ILogger<MotorcycleController> logger, IMotorcycleService service)
     {
         _logger = logger;
         _service = service;
-        _manufacturerService = manufacturerService;
     }
 
     [HttpPost(nameof(Create))]
@@ -30,23 +28,14 @@ public class MotorcycleController : ControllerBase
     public async Task<IEnumerable<MotorcycleDto>> GetAll()
     {
         _logger.Log(LogLevel.Information, $"{nameof(MotorcycleController)} => {nameof(GetAll)}");
-        var allMotorcycles = (await _service.GetAll().ConfigureAwait(false)).ToArray();
-        foreach (var motorcycle in allMotorcycles)
-        {
-            motorcycle.Manufacturer = await _manufacturerService.GetById(motorcycle.ManufacturerId);
-        }
-        return allMotorcycles;
+        return await _service.GetAll().ConfigureAwait(false);
     }
 
     [HttpGet($"{nameof(GetById)}/"+"{id}")]
     public async Task<MotorcycleDto?> GetById(Guid id)
     {
         _logger.Log(LogLevel.Information, $"{nameof(MotorcycleController)} => {nameof(GetById)} => {id}");
-        var motorcycle = await _service.GetById(id).ConfigureAwait(false);
-        if (motorcycle == null)
-            return null;
-        motorcycle.Manufacturer = await _manufacturerService.GetById(motorcycle.ManufacturerId);
-        return motorcycle;
+        return await _service.GetById(id).ConfigureAwait(false);;
     }
    
     [HttpPut(nameof(Update))]

@@ -8,7 +8,7 @@ using ElectricBike.Domain.Core.Users;
 using ElectricBike.Infrastructure.Data.Context.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace ElectricBike.Infrastructure.Data.Context.Core
+namespace ElectricBike.Infrastructure.Data.Core.Context
 {
     public interface ICoreDbContext : IDbContextBase
     {

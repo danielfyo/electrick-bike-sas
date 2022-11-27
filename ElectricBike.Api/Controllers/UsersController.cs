@@ -11,13 +11,11 @@ public class UsersController : ControllerBase
 {
     private readonly ILogger<UsersController> _logger;
     private readonly IUserService _service;
-    private readonly IPersonService _personService;
 
-    public UsersController(ILogger<UsersController> logger, IUserService service, IPersonService personService)
+    public UsersController(ILogger<UsersController> logger, IUserService service)
     {
         _logger = logger;
         _service = service;
-        _personService = personService;
     }
 
     [HttpPost(nameof(Create))]
@@ -31,23 +29,14 @@ public class UsersController : ControllerBase
     public async Task<IEnumerable<UserDto>> GetAll()
     {
         _logger.Log(LogLevel.Information, $"{nameof(UsersController)} => {nameof(GetAll)}");
-        var users = (await _service.GetAll().ConfigureAwait(false)).ToArray();
-        foreach (var user in users)
-        {
-            user.Person = await _personService.GetById(user.PersonId).ConfigureAwait(false);
-        }
-        return users;
+        return await _service.GetAll().ConfigureAwait(false);
     }
 
     [HttpGet($"{nameof(GetById)}/"+"{id}")]
     public async Task<UserDto?> GetById(Guid id)
     {
         _logger.Log(LogLevel.Information, $"{nameof(UsersController)} => {nameof(GetById)} => {id}");
-        var user =  await _service.GetById(id).ConfigureAwait(false);
-        if (user == null)
-            return null;
-        user.Person = await _personService.GetById(user.PersonId).ConfigureAwait(false);
-        return user;
+        return await _service.GetById(id).ConfigureAwait(false);
     }
    
     [HttpPut(nameof(Update))]

@@ -4,6 +4,7 @@ using ElectricBike.Infrastructure.Data.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectricBike.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221127212835_product of interest relationship")]
+    partial class productofinterestrelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,7 +228,7 @@ namespace ElectricBike.Infrastructure.Data.Migrations
                     b.HasOne("ElectricBike.Domain.Core.Manufacturers.Manufacturer", "Manufacturer")
                         .WithMany()
                         .HasForeignKey("ManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Manufacturer");
@@ -237,13 +239,13 @@ namespace ElectricBike.Infrastructure.Data.Migrations
                     b.HasOne("ElectricBike.Domain.Core.EngineSuppliers.EngineSupplier", "EngineSupplier")
                         .WithMany()
                         .HasForeignKey("EngineSupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ElectricBike.Domain.Core.Manufacturers.Manufacturer", "Manufacturer")
                         .WithMany()
                         .HasForeignKey("ManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("EngineSupplier");
@@ -256,7 +258,7 @@ namespace ElectricBike.Infrastructure.Data.Migrations
                     b.HasOne("ElectricBike.Domain.Core.PurchaseIntentions.PurchaseIntention", null)
                         .WithMany("ProductsOfInterest")
                         .HasForeignKey("PurchaseIntentionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -265,7 +267,7 @@ namespace ElectricBike.Infrastructure.Data.Migrations
                     b.HasOne("ElectricBike.Domain.Core.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -276,7 +278,7 @@ namespace ElectricBike.Infrastructure.Data.Migrations
                     b.HasOne("ElectricBike.Domain.Core.Persons.Person", "Person")
                         .WithMany()
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Person");

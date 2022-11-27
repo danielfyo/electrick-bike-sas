@@ -8,7 +8,7 @@ using ElectricBike.Domain.Core.Users;
 using ElectricBike.Infrastructure.Data.Context.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace ElectricBike.Infrastructure.Data.Context.Core
+namespace ElectricBike.Infrastructure.Data.Core.Context
 {
     public class CoreDbContext : DbContextBase, ICoreDbContext
     {
@@ -29,21 +29,5 @@ namespace ElectricBike.Infrastructure.Data.Context.Core
         public virtual DbSet<PurchaseIntention> PurchaseIntentions { get; set; }
         
         public virtual DbSet<User> Users { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
-
-            #region Unique Keys
-            //modelBuilder.Entity<Usuario>().HasIndex(x => x.Username).HasDatabaseName("UniqueKey_Usuario_Username").IsUnique();
-            //modelBuilder.Entity<Persona>().HasIndex(x => x.Identificacion).HasDatabaseName("UniqueKey_Persona_Identificacion").IsUnique();
-            //modelBuilder.Entity<Vehiculo>().HasIndex(x => x.Placa).HasDatabaseName("UniqueKey_Vehiculo_Placa").IsUnique();
-            #endregion
-
-            //base.OnModelCreating(modelBuilder);
-        }
     }
 }
