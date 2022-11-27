@@ -1,3 +1,4 @@
+using ElectricBike.Infrastructure.Data.Core.Manufacturers;
 using ElectricBike.Infrastructure.Data.Core.Motorcycles;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,5 +10,6 @@ public static class MotorcycleConfigurator
     {
         services.AddScoped<IMotorcycleService, MotorcycleService>();
         services.ConfigureMotorcycleRepository();
+        services.ConfigureManufacturerRepository();
     }
 }

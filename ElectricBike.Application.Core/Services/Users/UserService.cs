@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using AutoMapper;
 using ElectricBike.Domain.Core.Persons;
 using ElectricBike.Domain.Core.Users;
