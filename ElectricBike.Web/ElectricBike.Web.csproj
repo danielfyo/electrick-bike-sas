@@ -24,4 +24,8 @@
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Pages\Base\Bicycle\Bicycles.razor" />
     </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Pages\EngineSupplier\EngineSuppliers.razor" />
+    </ItemGroup>
 </Project>

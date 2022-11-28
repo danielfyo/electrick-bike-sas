@@ -1,12 +1,11 @@
-@page "/Bicycles"
+@page "/EngineSuppliers"
 
-@using ElectricBike.Application.Core.Services.Bicycles
-@using ElectricBike.Application.Core.Services.Manufacturers
-@inherits BicyclesBase
+@using ElectricBike.Application.Core.Services.EngineSuppliers
+@inherits EngineSupplierBase
 
 @code
 {
-    public static readonly string PagePath = "/Bicycles";
+    public static readonly string PagePath = "/EngineSuppliers";
 }
 
 <Spin Spinning="Loading">
@@ -20,7 +19,7 @@
 
     <span>@Description</span>
 
-    <Table @ref="Table" DataSource="Items" TItem="BicycleDto" RowClassName="@(_=>"editable-row")" OnChange="OnChange"
+    <Table @ref="Table" DataSource="Items" TItem="EngineSupplierDto" RowClassName="@(_=>"editable-row")" OnChange="OnChange"
            Bordered TableLayout="fixed">
         <ChildContent Context="data">
             <Column TData="string" Title="Id">
@@ -36,47 +35,31 @@
             <Column TData="string" Title="Referencia">
                 @if (!EditCache[data.Id.ToString()].edit)
                 {
-                    @data.Reference
+                    @data.Name
                 }
                 else
                 {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Reference" />
+                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Name" />
                 }
             </Column>
-            <Column TData="string" Title="Costo">
+            <Column TData="string" Title="Direcció">
                 @if (!EditCache[data.Id.ToString()].edit)
                 {
-                    @data.Cost.ToString("C0");
+                    @data.Address
                 }
                 else
                 {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Cost" />
+                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Address" />
                 }
             </Column>
-            <Column TData="string" Title="Año de fabricación">
+            <Column TData="string" Title="Telefono">
                 @if (!EditCache[data.Id.ToString()].edit)
                 {
-                    @data.YearOfManufacture.ToString("N0")
+                    @data.PhoneNumber
                 }
                 else
                 {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.YearOfManufacture" />
-                }
-            </Column>
-            <Column TData="string" Title="Fabricante">
-                @if (!EditCache[data.Id.ToString()].edit)
-                {
-                    @data.Manufacturer.Name
-                }
-                else
-                {
-                    <Select Placeholder="Seleccione un fabricante" Datasource="@Manufacturers" 
-                            @bind-value="EditCache[data.Id.ToString()].data.Manufacturer.Id"
-                            OnSelectedItemChanged="@OnSelectedItemChangedHandler"
-                            LabelName="@nameof(ManufacturerDto.Name)"
-                            ValueName="@nameof(ManufacturerDto.Id)"
-                            TItem="ManufacturerDto" TItemValue="Guid">
-                    </Select>
+                    <Input @bind-Value="EditCache[data.Id.ToString()].data.PhoneNumber" />
                 }
             </Column>
             <ActionColumn Title="Acciones">
@@ -117,23 +100,14 @@
            OnCancel="HandleCancelCreation">
         <Form @ref="@Form" Loading="@Loading" Model="@NewItem" LabelColSpan="8" WrapperColSpan="16"
               OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed">
-            <FormItem Label="Referencia">
-                <Input @bind-Value="@context.Reference" />
+            <FormItem Label="Nombre">
+                <Input @bind-Value="@context.Name" />
             </FormItem>
-            <FormItem Label="Costo">
-                <Input @bind-Value="@context.Cost"/>
+            <FormItem Label="Dirección">
+                <Input @bind-Value="@context.Address"/>
             </FormItem>
-            <FormItem Label="Año de fabricación">
-                <Input @bind-Value="@context.YearOfManufacture" />
-            </FormItem>
-            <FormItem Label="Fabricante">
-                <Select Placeholder="Seleccione un fabricante" Datasource="@Manufacturers" 
-                        @bind-value="context.ManufacturerId"
-                        OnSelectedItemChanged="@OnSelectedItemChangedHandler"
-                        LabelName="@nameof(ManufacturerDto.Name)"
-                        ValueName="@nameof(ManufacturerDto.Id)"
-                        TItem="ManufacturerDto" TItemValue="Guid">
-                </Select>
+            <FormItem Label="Teléfono">
+                <Input @bind-Value="@context.PhoneNumber" />
             </FormItem>
         </Form>
     </Modal>

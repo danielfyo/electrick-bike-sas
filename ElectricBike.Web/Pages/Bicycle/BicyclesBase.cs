@@ -4,17 +4,19 @@ using ElectricBike.Web.Pages.Base;
 
 namespace ElectricBike.Web.Pages.Bicycle;
 
-public class BicycleBase : CustomComponentBase<BicycleDto>
+public class BicyclesBase : CustomComponentBase<BicycleDto>
 {
     protected override string Title { get; set; } = "Bicicletas";
-    protected override string Description { get; set; } = "Creación, edición, eliminación, Consulta";
+    protected override string Description { get; set; } = "Creación, edición, eliminación, consulta";
     
     protected List<ManufacturerDto> Manufacturers = new ();
     
     protected override async Task OnInitializedAsync()
     {
-        await LoadAllItems();
+        ToggleLoading(true);
         Manufacturers = (await RestHttpClient.GetAll<ManufacturerDto>() ?? Array.Empty<ManufacturerDto>()).ToList();
+        ToggleLoading(false);
+        await base.OnInitializedAsync();
     }
     
     protected void OnSelectedItemChangedHandler(ManufacturerDto value)
