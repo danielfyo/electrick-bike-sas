@@ -22,4 +22,6 @@ public class PersonDto : DtoBase
     public string? Cellphone { get; set; }
     
     public DateTimeOffset? DateOfBirth { get; set; }
+
+    public DateTime? BirthDay { get; set; }
 }
