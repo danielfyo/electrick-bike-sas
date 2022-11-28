@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using ElectricBike.Application.Core.Services.Dto;
 using ElectricBike.Application.Core.Services.Persons;
+using ElectricBike.Infrastructure.Data.Base;
 
 namespace ElectricBike.Application.Core.Services.Users;
 

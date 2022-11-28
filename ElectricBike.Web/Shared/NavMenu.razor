@@ -1,4 +1,7 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using ElectricBike.Web.Pages.Bicycle
+@using ElectricBike.Application.Core.Services.Bicycles
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">ElectricBike.Web</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -21,7 +24,7 @@
         </div>
         
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="bicycles">
+            <NavLink class="nav-link" href="@Bicycles.PagePath">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Bicicletas
             </NavLink>
         </div>

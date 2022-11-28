@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ElectricBike.Infrastructure.Data.Base;
 
 namespace ElectricBike.Application.Core.Services.Dto;
 
