@@ -17,8 +17,12 @@ public class BicycleService : IBicycleService
         _manufacturerRepo = manufacturerRepo;
     }
 
-    public async Task<BicycleDto> Create(BicycleDto dto) => 
-        _mapper.Map<BicycleDto>(await _repo.Add(_mapper.Map<Bicycle>(dto)).ConfigureAwait(false));
+    public async Task<BicycleDto> Create(BicycleDto dto)
+    {
+        if (dto.ManufacturerId != default)
+            dto.Manufacturer = null!;
+        return _mapper.Map<BicycleDto>(await _repo.Add(_mapper.Map<Bicycle>(dto)).ConfigureAwait(false));
+    }
 
     public async Task<BicycleDto?> GetById(Guid id)
     {

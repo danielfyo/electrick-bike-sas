@@ -14,20 +14,20 @@ namespace ElectricBike.Infrastructure.Data.Core.Context
     {
         public CoreDbContext(DbContextOptions<CoreDbContext> options) : base(options) { }
 
-        public virtual DbSet<Bicycle> Bicycles { get; set; }
-        
-        public virtual DbSet<EngineSupplier> EngineSuppliers { get; set; }
-        
-        public virtual DbSet<Manufacturer> Manufacturers { get; set; }
-        
-        public virtual DbSet<Motorcycle> Motorcycles { get; set; }
-        
-        public virtual DbSet<Person> Persons { get; set; }
-        
-        public virtual DbSet<ProductOfInterest> ProductOfInterests { get; set; }
+        public virtual DbSet<Bicycle> Bicycles { get; set; } = null!;
 
-        public virtual DbSet<PurchaseIntention> PurchaseIntentions { get; set; }
-        
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<EngineSupplier> EngineSuppliers { get; set; } = null!;
+
+        public virtual DbSet<Manufacturer> Manufacturers { get; set; } = null!;
+
+        public virtual DbSet<Motorcycle> Motorcycles { get; set; } = null!;
+
+        public virtual DbSet<Person> Persons { get; set; } = null!;
+
+        public virtual DbSet<ProductOfInterest> ProductOfInterests { get; set; } = null!;
+
+        public virtual DbSet<PurchaseIntention> PurchaseIntentions { get; set; } = null!;
+
+        public virtual DbSet<User> Users { get; set; } = null!;
     }
 }

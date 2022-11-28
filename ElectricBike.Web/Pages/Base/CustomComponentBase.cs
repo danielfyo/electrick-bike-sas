@@ -1,7 +1,10 @@
 using AntDesign;
+using AntDesign.TableModels;
 using ElectricBike.Application.Core.Services.Dto;
 using ElectricBike.Infrastructure.Cross.ApiClient;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace ElectricBike.Web.Pages.Base;
 
@@ -9,19 +12,63 @@ public abstract class CustomComponentBase<TDto> : ComponentBase where TDto : Dto
 {
     protected abstract string Title { get; set; }
     protected abstract string Description { get; set; }
+    protected bool ModalVisible;
+    protected bool Loading { get; private set; }
     [Inject] private NotificationService Notice { get; set; } = default!;
-    protected Form<TDto> Form { get; set; }
-    
+    protected Form<TDto> Form { get; set; } = null!;
+    protected TDto NewItem { get; set; } = default!;
     protected List<TDto> Items { get; set; } = new ();
+    
     protected readonly IDictionary<string, (bool edit, TDto data)> EditCache = new Dictionary<string, (bool edit, TDto data)>();
 
+    protected ITable Table = null!;
+    
     [Inject] protected IRestHttpClient RestHttpClient { get; set; } = default!;
     
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync() => await LoadAllItems();
+
+    protected async Task LoadAllItems()
     {
         Items = (await RestHttpClient.GetAll<TDto>() ?? Array.Empty<TDto>()).ToList();
-        await ShowInfoMessage("Se han cargado los registros existentes en la base de datos", $"({Items.Count}) elementos");
+        EditCache.Clear();
         Items.ForEach(item => EditCache[item.Id.ToString()] = (false, item));
+    }
+
+    protected async Task OnChange(QueryModel<TDto> queryModel) => 
+        await ShowInfoMessage("Se han cargado los registros existentes en la base de datos", $"({Items.Count}) elementos");
+
+    protected Task HandleCancelCreation(MouseEventArgs e)
+    {
+        ModalVisible = false;
+        return Task.CompletedTask;
+    }
+
+    protected void OnFinish(EditContext editContext) => ModalVisible = false;
+
+    protected async Task OnFinishFailed(EditContext editContext) => 
+        await ShowErrorMessage("Error creando el registro", "Por favor verifique los datos he intente nuevamente");
+
+    protected void ToggleLoading(bool value) => Loading = value;
+    
+    protected void NewElement()
+    {
+        NewItem = (TDto)Activator.CreateInstance(typeof(TDto))!;
+        ModalVisible = true;
+    }
+    
+    protected async Task HandleOk(MouseEventArgs e)
+    {
+        ToggleLoading(true);
+        var response = await RestHttpClient.Create(Form.Model);
+        if (response != null)
+        {
+            await ShowSuccessMessage("Registro creado con éxito", string.Empty);
+            ModalVisible = false;
+            await LoadAllItems();
+        }
+        else
+            await ShowErrorMessage("Error creando el nuevo registro", string.Empty);
+        ToggleLoading(false);
     }
     
     protected void StartEdit(Guid id)
@@ -36,19 +83,17 @@ public abstract class CustomComponentBase<TDto> : ComponentBase where TDto : Dto
         EditCache[id.ToString()] = (false, data)!; // recovery
     }
     
-    protected async Task Delete(Guid id)
+    protected async Task Delete(TDto dto)
     {
-        var index = Items.FindIndex(item => item.Id == id);
-        Items[index] = EditCache[id.ToString()].data;
-        var success = await RestHttpClient.Delete<TDto>(id);
+        ToggleLoading(true);
+        Items.Remove(dto); 
+        EditCache.Remove(dto.Id.ToString());
+        var success = await RestHttpClient.Delete<TDto>(dto.Id);
         if (success)
-        {
-            await ShowSuccessMessage("Registro eliminado con éxito", $"Id: {id}");
-            EditCache.Remove(id.ToString());
-        } 
+            await ShowSuccessMessage("Registro eliminado con éxito", $"Id: {dto.Id}");
         else
-            await ShowErrorMessage("Error actualizando el registro", $"Id: {id}");
-        
+            await ShowErrorMessage("Error actualizando el registro", $"Id: {dto.Id}");
+        ToggleLoading(false);
     }
 
     protected async Task SaveEdit(Guid id)

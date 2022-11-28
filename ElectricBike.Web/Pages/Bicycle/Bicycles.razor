@@ -1,88 +1,94 @@
 @page "/Bicycles"
+
 @using ElectricBike.Application.Core.Services.Bicycles
+@using ElectricBike.Application.Core.Services.Manufacturers
 @inherits BicycleBase
+
 @code
 {
     public static readonly string PagePath = "/Bicycles";
 }
 
-<h1>
-    @Title
-    <Button Type="@ButtonType.Primary" Icon="@IconType.Outline.Plus" 
-            OnClick="NewElement" Size="ButtonSize.Large" Shape="@ButtonShape.Round">
-        Crear nuevo
-    </Button>
-</h1>
-<span>@Description</span>
+<Spin Spinning="Loading">
+    <h1>
+        @Title
+        <Button Type="@ButtonType.Primary" Icon="@IconType.Outline.Plus" 
+                OnClick="NewElement" Size="ButtonSize.Large" Shape="@ButtonShape.Round">
+            Crear nuevo
+        </Button>
+    </h1>
 
-<Table DataSource="Items" TItem="BicycleDto" RowClassName="@(_=>"editable-row")" Bordered TableLayout="fixed">
-    <ChildContent Context="data">
-        <Column TData="string" Title="Referencia">
-            @if (!EditCache[data.Id.ToString()].edit)
-            {
-                @data.Reference
-            }
-            else
-            {
-                <Input @bind-Value="EditCache[data.Id.ToString()].data.Reference" />
-            }
-        </Column>
-        <Column TData="string" Title="Costo">
-            @if (!EditCache[data.Id.ToString()].edit)
-            {
-                @data.Cost.ToString("C0");
-            }
-            else
-            {
-                <Input @bind-Value="EditCache[data.Id.ToString()].data.Cost" />
-            }
-        </Column>
-        <Column TData="string" Title="Año de fabricación">
-            @if (!EditCache[data.Id.ToString()].edit)
-            {
-                @data.YearOfManufacture.ToString("N0")
-            }
-            else
-            {
-                <Input @bind-Value="EditCache[data.Id.ToString()].data.YearOfManufacture" />
-            }
-        </Column>
-        <Column TData="string" Title="Fabricante">
-            @if (!EditCache[data.Id.ToString()].edit)
-            {
-                @data.Manufacturer.Name
-            }
-            else
-            {
-                <Input @bind-Value="EditCache[data.Id.ToString()].data.Manufacturer.Name" />
-            }
-        </Column>
-        <ActionColumn Title="Acciones">
-            @if (!EditCache[data.Id.ToString()].edit)
-            {
-                <a @onclick="() => StartEdit(data.Id)">Editar</a>
-                <a @onclick="() => Delete(data.Id)">Eliminar</a>
-            }
-            else
-            {
-                <a @onclick="() => SaveEdit(data.Id)" class="save">Guardar</a>
-                <Popconfirm Title="Esta seguro de cancelar la edición? perderá los cambios!"
-                            OnConfirm="() => CancelEdit(data.Id)"
-                            OkText="Si"
-                            CancelText="No">
-                    <a>Cancelar</a>
-                </Popconfirm>
-            }
-        </ActionColumn>
-    </ChildContent>
-</Table>
+    <span>@Description</span>
 
-<Modal Title="Crear nuevo elemento"
-       Visible="ModalVisible"
-       OnOk="@HandleOk"
-       OnCancel="HandleCancelCreation">
-    <Form @ref="@Form" Loading="@Loading" Model="@NewBicycle" LabelColSpan="8" WrapperColSpan="16"
-          OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed">
+    <Table @ref="Table" DataSource="Items" TItem="BicycleDto" RowClassName="@(_=>"editable-row")" OnChange="OnChange"
+           Bordered TableLayout="fixed">
+        <ChildContent Context="data">
+            <Column TData="string" Title="Referencia">
+                @if (!EditCache[data.Id.ToString()].edit)
+                {
+                    @data.Reference
+                }
+                else
+                {
+                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Reference" />
+                }
+            </Column>
+            <Column TData="string" Title="Costo">
+                @if (!EditCache[data.Id.ToString()].edit)
+                {
+                    @data.Cost.ToString("C0");
+                }
+                else
+                {
+                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Cost" />
+                }
+            </Column>
+            <Column TData="string" Title="Año de fabricación">
+                @if (!EditCache[data.Id.ToString()].edit)
+                {
+                    @data.YearOfManufacture.ToString("N0")
+                }
+                else
+                {
+                    <Input @bind-Value="EditCache[data.Id.ToString()].data.YearOfManufacture" />
+                }
+            </Column>
+            <Column TData="string" Title="Fabricante">
+                @if (!EditCache[data.Id.ToString()].edit)
+                {
+                    @data.Manufacturer.Name
+                }
+                else
+                {
+                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Manufacturer.Name" ReadOnly="true"/>
+                }
+            </Column>
+            <ActionColumn Title="Acciones">
+                @if (!EditCache[data.Id.ToString()].edit)
+                {
+                    <a @onclick="() => StartEdit(data.Id)">Editar</a>
+                    <a @onclick="() => Delete(data)">Eliminar</a>
+                }
+                else
+                {
+                    <a @onclick="() => SaveEdit(data.Id)" class="save">Guardar</a>
+                    <Popconfirm Title="Esta seguro de cancelar la edición? perderá los cambios!"
+                                OnConfirm="() => CancelEdit(data.Id)"
+                                OkText="Si"
+                                CancelText="No">
+                        <a>Cancelar</a>
+                    </Popconfirm>
+                }
+            </ActionColumn>
+        </ChildContent>
+    </Table>
+
+    <Modal Title="Crear nuevo elemento"
+           Visible="ModalVisible"
+           OnOk="@HandleOk"
+           OnCancel="HandleCancelCreation">
+        <Form @ref="@Form" Loading="@Loading" Model="@NewItem" LabelColSpan="8" WrapperColSpan="16"
+              OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed">
             <FormItem Label="Referencia">
                 <Input @bind-Value="@context.Reference" />
             </FormItem>
@@ -93,11 +99,17 @@
                 <Input @bind-Value="@context.YearOfManufacture" />
             </FormItem>
             <FormItem Label="Fabricante">
-                <InputSelect  DisplayName="Title" @bind-Value="@context.Manufacturer" TItem="ManufacturerDto" 
-                              Placeholder="Seleccione un fabricante" Datasource="@Manufacturers"/>
+                <Select Placeholder="Seleccione un fabricante" Datasource="@Manufacturers" 
+                        @bind-value="context.ManufacturerId"
+                        OnSelectedItemChanged="@OnSelectedItemChangedHandler"
+                        LabelName="@nameof(ManufacturerDto.Name)"
+                        ValueName="@nameof(ManufacturerDto.Id)"
+                        TItem="ManufacturerDto" TItemValue="Guid">
+                </Select>
             </FormItem>
-    </Form>
-</Modal>
+        </Form>
+    </Modal>
+</Spin>
 
 <style>
     .save {

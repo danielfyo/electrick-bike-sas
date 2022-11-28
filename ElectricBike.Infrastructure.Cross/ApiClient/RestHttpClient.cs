@@ -10,6 +10,7 @@ public class RestHttpClient : IRestHttpClient
 {
     private readonly HttpClient _httpClient;
     private readonly ApiOptions _options;
+    
     public RestHttpClient(IOptions<ApiOptions> optionsIn, HttpClient client)
     {
         _options = optionsIn.Value;
@@ -21,8 +22,11 @@ public class RestHttpClient : IRestHttpClient
     {
         var json = JsonConvert.SerializeObject(dto);
         var data = new StringContent(json, Encoding.UTF8, _options.AllowedContentType);
-        var url = $"/{dto.GetType().Name.Replace("Dto", string.Empty)}";
+        var context = GetTypeName<TDto>();
+        var url = $"/{context}/Create";
         var response = await _httpClient.PostAsync(url, data);
+        //response.EnsureSuccessStatusCode();
+        var flatResponse = await response.Content.ReadAsStringAsync();
         return await response.Content.ReadFromJsonAsync<TDto>();
     }
     
@@ -30,16 +34,22 @@ public class RestHttpClient : IRestHttpClient
     {
         var url = $"/{typeof(TDto).Name.Replace("Dto", string.Empty)}/{id}";
         var response = await _httpClient.GetAsync(url);
+        response.EnsureSuccessStatusCode();
         return await  response.Content.ReadFromJsonAsync<TDto>();
     }
     
     public async Task<IEnumerable<TDto>?> GetAll<TDto>() where TDto : DtoBase
     {
-        var url = $"/{typeof(TDto).Name.Replace("Dto", string.Empty)}/GetAll";
+        var context = GetTypeName<TDto>();
+        var url = $"/{context}/GetAll";
         var response = await _httpClient.GetAsync(url);
+        response.EnsureSuccessStatusCode();
         return await  response.Content.ReadFromJsonAsync<IEnumerable<TDto>>();  
     }
-   
+    
+    public static string GetTypeName<TDto>() where TDto : DtoBase => 
+        typeof(TDto).Name.Replace("Dto", string.Empty);
+
     public async Task<bool> Put<TDto>(TDto dto) where TDto : DtoBase
     {
         var json = JsonConvert.SerializeObject(dto);
@@ -51,7 +61,7 @@ public class RestHttpClient : IRestHttpClient
     
     public async Task<bool> Delete<TDto>(Guid id) where TDto : DtoBase
     {
-        var url = $"/{typeof(TDto).Name.Replace("Dto", string.Empty)}/{id}";
+        var url = $"/{typeof(TDto).Name.Replace("Dto", string.Empty)}/Delete/{id}";
         var response = await _httpClient.DeleteAsync(url);
         return bool.Parse(await response.Content.ReadAsStringAsync());
     }

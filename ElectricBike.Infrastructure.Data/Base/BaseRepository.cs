@@ -10,9 +10,9 @@ namespace ElectricBike.Infrastructure.Data.Base
         private readonly IDbContextBase _dbContext;
         public IUnitOfWork UnitOfWork => _dbContext;
 
-        private bool _disposedValue = false;
+        private bool _disposedValue;
 
-        public BaseRepository(IDbContextBase dbContext) => _dbContext = dbContext;
+        protected BaseRepository(IDbContextBase dbContext) => _dbContext = dbContext;
 
         public async Task<T> Add(T entity)
         {
@@ -30,12 +30,12 @@ namespace ElectricBike.Infrastructure.Data.Base
 
         public async Task<List<T>> GetAll() => await _dbContext.Set<T>().ToListAsync();
 
-        public async Task<T> GetById(Guid id) => await _dbContext.Set<T>().FindAsync(id);
+        public async Task<T?> GetById(Guid id) => await _dbContext.Set<T>().FindAsync(id);
 
         public async Task<bool> Delete(Guid id)
         {
             var entity = await _dbContext.Set<T>().FindAsync(id);
-            _dbContext.Set<T>().Remove(entity);
+            if (entity != null) _dbContext.Set<T>().Remove(entity);
             _dbContext.Commit();
             return true;
         }
@@ -53,7 +53,7 @@ namespace ElectricBike.Infrastructure.Data.Base
                 ? await _dbContext.Set<T>().Where(predicate).Take(takeRecords.Value).ToListAsync()
                 : skipRecords > 0 && takeRecords > 0
                 ? await _dbContext.Set<T>().Where(predicate).Skip(skipRecords.Value).Take(takeRecords.Value).ToListAsync()
-                : (IEnumerable<T>)await _dbContext.Set<T>().Where(predicate).Skip(skipRecords.Value).ToListAsync();
+                : (IEnumerable<T>)await _dbContext.Set<T>().Where(predicate).Skip(skipRecords!.Value).ToListAsync();
         }
 
         public async Task<IEnumerable<T>> SearchMatchingOrderBy<TResponseOrderBy>(Expression<Func<T, TResponseOrderBy>> predicateOrderBy,
@@ -64,35 +64,33 @@ namespace ElectricBike.Infrastructure.Data.Base
                 ? await _dbContext.Set<T>().Where(predicate).OrderBy(predicateOrderBy).Take(takeRecords.Value).ToListAsync()
                 : skipRecords > 0 && takeRecords > 0
                 ? await _dbContext.Set<T>().Where(predicate).OrderBy(predicateOrderBy).Skip(skipRecords.Value).Take(takeRecords.Value).ToListAsync()
-                : (IEnumerable<T>)await _dbContext.Set<T>().Where(predicate).OrderBy(predicateOrderBy).Skip(skipRecords.Value).ToListAsync()
+                : (IEnumerable<T>)await _dbContext.Set<T>().Where(predicate).OrderBy(predicateOrderBy).Skip(skipRecords!.Value).ToListAsync()
                 : skipRecords == 0 && takeRecords > 0
                 ? await _dbContext.Set<T>().Where(predicate).OrderByDescending(predicateOrderBy).Take(takeRecords.Value).ToListAsync()
                 : skipRecords > 0 && takeRecords > 0
                 ? await _dbContext.Set<T>().Where(predicate).OrderByDescending(predicateOrderBy).Skip(skipRecords.Value).Take(takeRecords.Value).ToListAsync()
-                : (IEnumerable<T>)await _dbContext.Set<T>().Where(predicate).OrderByDescending(predicateOrderBy).Skip(skipRecords.Value).ToListAsync();
+                : (IEnumerable<T>)await _dbContext.Set<T>().Where(predicate).OrderByDescending(predicateOrderBy).Skip(skipRecords!.Value).ToListAsync();
         }
 
-        public async Task<T> FirstBySearchMatching(Expression<Func<T, bool>> predicate) => 
+        public async Task<T?> FirstBySearchMatching(Expression<Func<T, bool>> predicate) => 
             await _dbContext.Set<T>().Where(predicate).FirstOrDefaultAsync();
 
         #region IDisposable Support
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                    _dbContext.Dispose();
-                _disposedValue = true;
-            }
+            if (_disposedValue) return;
+            if (disposing)
+                _dbContext.Dispose();
+            _disposedValue = true;
         }
 
-        public async Task<T> GetById(decimal id) => await _dbContext.Set<T>().FindAsync(id);
+        public async Task<T?> GetById(decimal id) => await _dbContext.Set<T>().FindAsync(id);
 
         public async Task<bool> Delete(decimal id)
         {
             var entity = await _dbContext.Set<T>().FindAsync(id);
-            _dbContext.Set<T>().Remove(entity);
+            if (entity != null) _dbContext.Set<T>().Remove(entity);
             _dbContext.Commit();
             return true;
         }

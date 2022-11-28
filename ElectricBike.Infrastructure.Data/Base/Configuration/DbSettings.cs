@@ -4,7 +4,7 @@ namespace ElectricBike.Infrastructure.Data.Base.Configuration
 {
     public class DbSettings
     {
-        public string ConnectionString { get; set; }
+        public string ConnectionString { get; set; } = null!;
 
         public void CopyFrom(DbSettings options)
         {

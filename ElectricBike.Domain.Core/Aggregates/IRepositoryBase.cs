@@ -21,6 +21,6 @@ namespace ElectricBike.Domain.Core.Aggregates
         Task<IEnumerable<TGenericEntity>> SearchMatchingOrderBy<TResponseOrderBy>(Expression<Func<TGenericEntity, TResponseOrderBy>> predicateOrderBy,
             Expression<Func<TGenericEntity, bool>> predicate, int? skipRecords = 0, int? takeRecords = 0, string? orderByType = "asc");
 
-        Task<TGenericEntity> FirstBySearchMatching(Expression<Func<TGenericEntity, bool>> predicate);
+        Task<TGenericEntity?> FirstBySearchMatching(Expression<Func<TGenericEntity, bool>> predicate);
     }
 }
