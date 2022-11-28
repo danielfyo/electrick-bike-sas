@@ -24,4 +24,17 @@ public class BicyclesBase : CustomComponentBase<BicycleDto>
         NewItem.ManufacturerId = value.Id;
         NewItem.Manufacturer = value;
     }
+    
+    protected override async Task SaveEdit(Guid id)
+    {
+        ToggleLoading(true);
+        var index = Items.FindIndex(item => item.Id == id);
+        EditCache[id.ToString()].data.Manufacturer = NewItem.Manufacturer;
+        EditCache[id.ToString()].data.ManufacturerId = NewItem.ManufacturerId;
+
+        Items[index] = EditCache[id.ToString()].data;
+        
+        await base.SaveEdit(id);
+        ToggleLoading(false);
+    }
 }

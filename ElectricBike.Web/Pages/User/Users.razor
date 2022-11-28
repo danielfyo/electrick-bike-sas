@@ -1,12 +1,12 @@
-@page "/Customers"
+@page "/Users"
 
-@using ElectricBike.Application.Core.Services.EngineSuppliers
+@using ElectricBike.Application.Core.Services.Users
 @using ElectricBike.Application.Core.Services.Persons
-@inherits PersonsBase
+@inherits UsersBase
 
 @code
 {
-    public static readonly string PagePath = "/Customers";
+    public static readonly string PagePath = "/Users";
 }
 
 <Spin Spinning="Loading">
@@ -20,62 +20,49 @@
 
     <span>@Description</span>
 
-    <Table @ref="Table" DataSource="Items" TItem="PersonDto" RowClassName="@(_=>"editable-row")" OnChange="OnChange"
+    <Table @ref="Table" DataSource="Items" TItem="UserDto" RowClassName="@(_=>"editable-row")" OnChange="OnChange"
            Bordered TableLayout="fixed">
         <ChildContent Context="data">
             <Column TData="string" Title="Id">
                 @data.Id
             </Column>
-            <Column TData="string" Title="Nombres">
+            <Column TData="string" Title="Nombre de usuario">
                 @if (!EditCache[data.Id.ToString()].edit)
                 {
-                    @data.FirstName
+                    @data.Username
                 }
                 else
                 {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.FirstName" />
+                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Username" />
                 }
             </Column>
-            <Column TData="string" Title="Apellidos">
+            <Column TData="string" Title="Contraseña">
                 @if (!EditCache[data.Id.ToString()].edit)
                 {
-                    @data.SureName
+                    @("------*******-------")
                 }
                 else
                 {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.SureName" />
+                    <InputPassword @bind-Value="EditCache[data.Id.ToString()].data.Password" />
                 }
             </Column>
             <Column TData="string" Title="Correo">
                 @if (!EditCache[data.Id.ToString()].edit)
                 {
-                    @data.Email
+                    @(data.Person.FirstName + " " + data.Person.SureName);
                 }
                 else
                 {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Email" />
+                    <Select Placeholder="Seleccione una persona" Datasource="@Persons" 
+                            @bind-value="EditCache[data.Id.ToString()].data.Person.Id"
+                            OnSelectedItemChanged="@OnSelectedItemChangedHandler"
+                            LabelName="@nameof(PersonDto.FirstName)"
+                            ValueName="@nameof(PersonDto.Id)"
+                            TItem="PersonDto" TItemValue="Guid">
+                    </Select>
                 }
             </Column>
-            <Column TData="string" Title="Celular">
-                @if (!EditCache[data.Id.ToString()].edit)
-                {
-                    @data.Cellphone
-                }
-                else
-                {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Cellphone" />
-                }
-            </Column>
-            <Column TData="string" Title="Fecha de nacimiento">
-                @if (!EditCache[data.Id.ToString()].edit)
-                {
-                    @data.BirthDay.ToString()
-                }
-                else
-                {
-                    <DatePicker @bind-Value="EditCache[data.Id.ToString()].data.BirthDay" />
-                }
-            </Column>
+            
             <ActionColumn Title="Acciones">
                 @if (!EditCache[data.Id.ToString()].edit)
                 {
@@ -114,20 +101,20 @@
            OnCancel="HandleCancelCreation">
         <Form @ref="@Form" Loading="@Loading" Model="@NewItem" LabelColSpan="8" WrapperColSpan="16"
               OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed">
-            <FormItem Label="Nombre">
-                <Input @bind-Value="@context.FirstName" />
+            <FormItem Label="Nombre de usuario">
+                <Input @bind-Value="@context.Username" />
             </FormItem>
-            <FormItem Label="Apellidos">
-                <Input @bind-Value="@context.SureName"/>
+            <FormItem Label="Contraseña">
+                <InputPassword @bind-Value="@context.Password"/>
             </FormItem>
-            <FormItem Label="Correo">
-                <Input @bind-Value="@context.Email"/>
-            </FormItem>
-            <FormItem Label="Teléfono">
-                <Input @bind-Value="@context.Cellphone" />
-            </FormItem>
-             <FormItem Label="Fecha de nacimiento">
-                <DatePicker @bind-Value="@context.BirthDay" />
+            <FormItem Label="Persona">
+                <Select Placeholder="Seleccione una persona" Datasource="@Persons" 
+                        @bind-value="context.PersonId"
+                        OnSelectedItemChanged="@OnSelectedItemChangedHandler"
+                        LabelName="@nameof(PersonDto.FirstName)"
+                        ValueName="@nameof(PersonDto.Id)"
+                        TItem="PersonDto" TItemValue="Guid">
+                </Select>
             </FormItem>
         </Form>
     </Modal>

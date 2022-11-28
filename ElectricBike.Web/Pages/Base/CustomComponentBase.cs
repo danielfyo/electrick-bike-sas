@@ -16,7 +16,7 @@ public abstract class CustomComponentBase<TDto> : ComponentBase where TDto : Dto
     protected bool Loading { get; private set; }
     [Inject] private NotificationService Notice { get; set; } = default!;
     protected Form<TDto> Form { get; set; } = null!;
-    protected TDto NewItem { get; set; } = default!;
+    protected TDto NewItem { get; set; } = (TDto)Activator.CreateInstance(typeof(TDto))!;
     protected List<TDto> Items { get; set; } = new ();
     
     protected readonly IDictionary<string, (bool edit, TDto data)> EditCache = new Dictionary<string, (bool edit, TDto data)>();
@@ -104,7 +104,7 @@ public abstract class CustomComponentBase<TDto> : ComponentBase where TDto : Dto
         ToggleLoading(false);
     }
 
-    protected async Task SaveEdit(Guid id)
+    protected virtual async Task SaveEdit(Guid id)
     {
         ToggleLoading(true);
         var index = Items.FindIndex(item => item.Id == id);

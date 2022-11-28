@@ -17,8 +17,12 @@ public class UserService : IUserService
         _personRepo = personRepo;
     }
 
-    public async Task<UserDto> Create(UserDto dto) => 
-        _mapper.Map<UserDto>(await _repo.Add(_mapper.Map<User>(dto)).ConfigureAwait(false));
+    public async Task<UserDto> Create(UserDto dto)
+    {
+        if (dto.PersonId != default && dto.Person.Id != default)
+            dto.Person = null!;
+        return _mapper.Map<UserDto>(await _repo.Add(_mapper.Map<User>(dto)).ConfigureAwait(false));
+    }
 
     public async Task<UserDto?> GetById(Guid id)
     {
@@ -39,8 +43,12 @@ public class UserService : IUserService
         return _mapper.Map<IEnumerable<UserDto>>(users);
     }
 
-    public async Task<bool> Update(UserDto dto) => 
-        await _repo.Update(_mapper.Map<User>(dto)).ConfigureAwait(false);
+    public async Task<bool> Update(UserDto dto)
+    {
+        if (dto.PersonId != default && dto.Person.Id != default)
+            dto.Person = null!;
+        return await _repo.Update(_mapper.Map<User>(dto)).ConfigureAwait(false);
+    }
 
     public async Task<bool> Delete(Guid id) => await _repo.Delete(id).ConfigureAwait(false);
 }
