@@ -44,8 +44,12 @@ public class BicycleService : IBicycleService
         return _mapper.Map<IEnumerable<BicycleDto>>(bicycles);
     }
 
-    public async Task<bool> Update(BicycleDto dto) => 
-        await _repo.Update(_mapper.Map<Bicycle>(dto)).ConfigureAwait(false);
+    public async Task<bool> Update(BicycleDto dto)
+    {
+        if (dto.ManufacturerId != default)
+            dto.Manufacturer = null!;
+        return await _repo.Update(_mapper.Map<Bicycle>(dto)).ConfigureAwait(false);
+    }
 
     public async Task<bool> Delete(Guid id) => await _repo.Delete(id).ConfigureAwait(false);
 }

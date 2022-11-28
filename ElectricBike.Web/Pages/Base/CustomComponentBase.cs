@@ -29,13 +29,17 @@ public abstract class CustomComponentBase<TDto> : ComponentBase where TDto : Dto
 
     protected async Task LoadAllItems()
     {
+        ToggleLoading(true);
         Items = (await RestHttpClient.GetAll<TDto>() ?? Array.Empty<TDto>()).ToList();
         EditCache.Clear();
         Items.ForEach(item => EditCache[item.Id.ToString()] = (false, item));
+        await ShowInfoMessage("Se han cargado los registros existentes en la base de datos", $"({Items.Count}) elementos");
+        ToggleLoading(false);
     }
 
-    protected async Task OnChange(QueryModel<TDto> queryModel) => 
-        await ShowInfoMessage("Se han cargado los registros existentes en la base de datos", $"({Items.Count}) elementos");
+    protected async Task OnChange(QueryModel<TDto> queryModel) =>         
+        await ShowInfoMessage("Se han cargado los registros existentes en la base de datos", string.Empty);
+
 
     protected Task HandleCancelCreation(MouseEventArgs e)
     {
@@ -74,13 +78,17 @@ public abstract class CustomComponentBase<TDto> : ComponentBase where TDto : Dto
     protected void StartEdit(Guid id)
     {
         var data = EditCache[id.ToString()];
-        EditCache[id.ToString()] = (true, data.data); // add a copy in cache
+        EditCache[id.ToString()] = (true, data.data);
     }
 
-    protected void CancelEdit(Guid id)
+    protected async Task CancelEdit(Guid id)
     {
+        await LoadAllItems();
+        
+        ToggleLoading(true);
         var data = Items.FirstOrDefault(item => item.Id == id);
-        EditCache[id.ToString()] = (false, data)!; // recovery
+        EditCache[id.ToString()] = (false, data)!;
+        ToggleLoading(false);
     }
     
     protected async Task Delete(TDto dto)
@@ -98,6 +106,7 @@ public abstract class CustomComponentBase<TDto> : ComponentBase where TDto : Dto
 
     protected async Task SaveEdit(Guid id)
     {
+        ToggleLoading(true);
         var index = Items.FindIndex(item => item.Id == id);
         Items[index] = EditCache[id.ToString()].data;
         var success = await RestHttpClient.Put(Items[index]);
@@ -108,6 +117,7 @@ public abstract class CustomComponentBase<TDto> : ComponentBase where TDto : Dto
         }
         else
             await ShowErrorMessage("Error actualizando el registro", $"Id: {id}");
+        ToggleLoading(false);
     }
     
     private async Task NoticeWithIcon(NotificationType type, string title, string message) =>

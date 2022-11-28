@@ -13,10 +13,8 @@ public class BicycleBase : CustomComponentBase<BicycleDto>
     
     protected override async Task OnInitializedAsync()
     {
-        ToggleLoading(true);
         await LoadAllItems();
         Manufacturers = (await RestHttpClient.GetAll<ManufacturerDto>() ?? Array.Empty<ManufacturerDto>()).ToList();
-        ToggleLoading(false);
     }
     
     protected void OnSelectedItemChangedHandler(ManufacturerDto value)

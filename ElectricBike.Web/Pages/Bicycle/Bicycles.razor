@@ -23,6 +23,16 @@
     <Table @ref="Table" DataSource="Items" TItem="BicycleDto" RowClassName="@(_=>"editable-row")" OnChange="OnChange"
            Bordered TableLayout="fixed">
         <ChildContent Context="data">
+            <Column TData="string" Title="Id">
+                @if (!EditCache[data.Id.ToString()].edit)
+                {
+                    @data.Id
+                }
+                else
+                {
+                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Id" />
+                }
+            </Column>
             <Column TData="string" Title="Referencia">
                 @if (!EditCache[data.Id.ToString()].edit)
                 {
@@ -60,23 +70,41 @@
                 }
                 else
                 {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Manufacturer.Name" ReadOnly="true"/>
+                    <Select Placeholder="Seleccione un fabricante" Datasource="@Manufacturers" 
+                            @bind-value="EditCache[data.Id.ToString()].data.Manufacturer.Id"
+                            OnSelectedItemChanged="@OnSelectedItemChangedHandler"
+                            LabelName="@nameof(ManufacturerDto.Name)"
+                            ValueName="@nameof(ManufacturerDto.Id)"
+                            TItem="ManufacturerDto" TItemValue="Guid">
+                    </Select>
                 }
             </Column>
             <ActionColumn Title="Acciones">
                 @if (!EditCache[data.Id.ToString()].edit)
                 {
-                    <a @onclick="() => StartEdit(data.Id)">Editar</a>
-                    <a @onclick="() => Delete(data)">Eliminar</a>
+                    <Button Type="@ButtonType.Default" Icon="@IconType.Outline.Edit" 
+                            OnClick="()=>StartEdit(data.Id)" Size="ButtonSize.Large" Shape="@ButtonShape.Round">
+                        Editar
+                    </Button>
+                    <Button Type="@ButtonType.Default" Danger Icon="@IconType.Outline.Delete" 
+                            OnClick="()=>Delete(data)" Size="ButtonSize.Large" Shape="@ButtonShape.Round">
+                        Eliminar
+                    </Button>
                 }
                 else
                 {
-                    <a @onclick="() => SaveEdit(data.Id)" class="save">Guardar</a>
+                    <Button Type="@ButtonType.Default" Icon="@IconType.Outline.Edit" 
+                            OnClick="()=>SaveEdit(data.Id)" Size="ButtonSize.Large" Shape="@ButtonShape.Round">
+                        Guardar
+                    </Button>
                     <Popconfirm Title="Esta seguro de cancelar la edición? perderá los cambios!"
                                 OnConfirm="() => CancelEdit(data.Id)"
                                 OkText="Si"
                                 CancelText="No">
-                        <a>Cancelar</a>
+                        <Button Type="@ButtonType.Default" Danger Icon="@IconType.Outline.Delete" 
+                               Size="ButtonSize.Large" Shape="@ButtonShape.Round">
+                            Cancelar
+                        </Button>
                     </Popconfirm>
                 }
             </ActionColumn>
@@ -110,10 +138,3 @@
         </Form>
     </Modal>
 </Spin>
-
-<style>
-    .save {
-        margin-right: 8px;
-    }
-</style>
-
