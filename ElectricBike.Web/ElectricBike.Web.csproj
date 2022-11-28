@@ -27,5 +27,6 @@
 
     <ItemGroup>
       <AdditionalFiles Include="Pages\EngineSupplier\EngineSuppliers.razor" />
+      <AdditionalFiles Include="Pages\Motorcycle\Motorcycles.razor" />
     </ItemGroup>
 </Project>

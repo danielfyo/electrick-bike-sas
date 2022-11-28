@@ -21,8 +21,15 @@ public class MotorcycleService : IMotorcycleService
         _engineSupplierRepo = engineSupplierRepo;
     }
 
-    public async Task<MotorcycleDto> Create(MotorcycleDto dto) => 
-        _mapper.Map<MotorcycleDto>(await _repo.Add(_mapper.Map<Motorcycle>(dto)).ConfigureAwait(false));
+    public async Task<MotorcycleDto> Create(MotorcycleDto dto)
+    {
+        if (dto.EngineSupplierId != default && dto.EngineSupplier.Id != default)
+            dto.EngineSupplier = null!;
+        
+        if (dto.ManufacturerId != default && dto.Manufacturer.Id != default)
+            dto.Manufacturer = null!;
+        return _mapper.Map<MotorcycleDto>(await _repo.Add(_mapper.Map<Motorcycle>(dto)).ConfigureAwait(false));
+    }
 
     public async Task<MotorcycleDto?> GetById(Guid id)
     {
@@ -53,8 +60,15 @@ public class MotorcycleService : IMotorcycleService
         return _mapper.Map<IEnumerable<MotorcycleDto>>(motorcycles);
     }
 
-    public async Task<bool> Update(MotorcycleDto dto) => 
-        await _repo.Update(_mapper.Map<Motorcycle>(dto)).ConfigureAwait(false);
+    public async Task<bool> Update(MotorcycleDto dto)
+    {
+        if (dto.EngineSupplierId != default && dto.EngineSupplier.Id != default)
+            dto.EngineSupplier = null!;
+        
+        if (dto.ManufacturerId != default && dto.Manufacturer.Id != default)
+            dto.Manufacturer = null!;
+        return await _repo.Update(_mapper.Map<Motorcycle>(dto)).ConfigureAwait(false);
+    }
 
     public async Task<bool> Delete(Guid id) => await _repo.Delete(id).ConfigureAwait(false);
 }
