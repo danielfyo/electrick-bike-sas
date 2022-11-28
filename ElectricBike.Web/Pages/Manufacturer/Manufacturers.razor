@@ -1,11 +1,11 @@
-@page "/EngineSuppliers"
+@page "/Manufacturers"
 
-@using ElectricBike.Application.Core.Services.EngineSuppliers
-@inherits EngineSupplierBase
+@using ElectricBike.Application.Core.Services.Manufacturers
+@inherits ManufacturersBase
 
 @code
 {
-    public static readonly string PagePath = "/EngineSuppliers";
+    public static readonly string PagePath = "/Manufacturers";
 }
 
 <Spin Spinning="Loading">
@@ -19,13 +19,13 @@
 
     <span>@Description</span>
 
-    <Table @ref="Table" DataSource="Items" TItem="EngineSupplierDto" RowClassName="@(_=>"editable-row")" OnChange="OnChange"
+    <Table @ref="Table" DataSource="Items" TItem="ManufacturerDto" RowClassName="@(_=>"editable-row")" OnChange="OnChange"
            Bordered TableLayout="fixed">
         <ChildContent Context="data">
             <Column TData="string" Title="Id">
                 @data.Id
             </Column>
-            <Column TData="string" Title="Referencia">
+            <Column TData="string" Title="Nombre">
                 @if (!EditCache[data.Id.ToString()].edit)
                 {
                     @data.Name
@@ -33,26 +33,6 @@
                 else
                 {
                     <Input @bind-Value="EditCache[data.Id.ToString()].data.Name" />
-                }
-            </Column>
-            <Column TData="string" Title="Direcció">
-                @if (!EditCache[data.Id.ToString()].edit)
-                {
-                    @data.Address
-                }
-                else
-                {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Address" />
-                }
-            </Column>
-            <Column TData="string" Title="Telefono">
-                @if (!EditCache[data.Id.ToString()].edit)
-                {
-                    @data.PhoneNumber
-                }
-                else
-                {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.PhoneNumber" />
                 }
             </Column>
             <ActionColumn Title="Acciones">
@@ -95,12 +75,6 @@
               OnFinish="@OnFinish" OnFinishFailed="@OnFinishFailed">
             <FormItem Label="Nombre">
                 <Input @bind-Value="@context.Name" />
-            </FormItem>
-            <FormItem Label="Dirección">
-                <Input @bind-Value="@context.Address"/>
-            </FormItem>
-            <FormItem Label="Teléfono">
-                <Input @bind-Value="@context.PhoneNumber" />
             </FormItem>
         </Form>
     </Modal>

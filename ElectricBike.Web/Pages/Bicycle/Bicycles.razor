@@ -24,14 +24,7 @@
            Bordered TableLayout="fixed">
         <ChildContent Context="data">
             <Column TData="string" Title="Id">
-                @if (!EditCache[data.Id.ToString()].edit)
-                {
-                    @data.Id
-                }
-                else
-                {
-                    <Input @bind-Value="EditCache[data.Id.ToString()].data.Id" />
-                }
+                @data.Id
             </Column>
             <Column TData="string" Title="Referencia">
                 @if (!EditCache[data.Id.ToString()].edit)
